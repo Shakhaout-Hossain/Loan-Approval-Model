@@ -1,0 +1,17 @@
+2024-12-02 19:27:41,040 - __main__ - INFO - Starting ML pipeline...
+2024-12-02 19:27:41,040 - root - INFO - Created directory: artifacts
+2024-12-02 19:27:41,040 - root - INFO - Created directory: artifacts/ingested_data
+2024-12-02 19:27:41,040 - root - INFO - Created directory: artifacts/transformed_data
+2024-12-02 19:27:41,040 - root - INFO - Created directory: artifacts/models
+2024-12-02 19:27:41,041 - root - INFO - Created directory: logs
+2024-12-02 19:27:41,489 - alembic.runtime.migration - INFO - Context impl SQLiteImpl.
+2024-12-02 19:27:41,490 - alembic.runtime.migration - INFO - Will assume non-transactional DDL.
+2024-12-02 19:27:41,527 - __main__ - INFO - Step 1: Data Ingestion
+2024-12-02 19:27:41,593 - __main__ - INFO - Data ingestion completed. Data saved to artifacts/ingested_data
+2024-12-02 19:27:41,593 - __main__ - INFO - Step 2: Data Transformation
+2024-12-02 19:27:41,663 - __main__ - INFO - Data transformation completed. Data saved to artifacts/transformed_data
+2024-12-02 19:27:41,663 - __main__ - INFO - Step 3: Model Training and Evaluation
+2024-12-02 19:27:55,339 - __main__ - INFO - Model evaluation results saved to artifacts/models/model_evaluation_results.csv
+2024-12-02 19:27:55,346 - __main__ - INFO - Best performing model: Logistic Regression (F1 Score: 0.8135)
+2024-12-02 19:27:55,350 - root - INFO - Pipeline summary saved to artifacts/pipeline_summary_20241202_192755.csv
+2024-12-02 19:27:55,350 - __main__ - INFO - ML pipeline completed successfully!

@@ -1,0 +1,6 @@
+2024-12-02 19:03:25,488 - __main__ - INFO - Starting ML pipeline...
+2024-12-02 19:03:25,489 - root - INFO - Created directory: artifacts
+2024-12-02 19:03:25,489 - root - INFO - Created directory: artifacts/ingested_data
+2024-12-02 19:03:25,489 - root - INFO - Created directory: artifacts/transformed_data
+2024-12-02 19:03:25,489 - root - INFO - Created directory: artifacts/models
+2024-12-02 19:03:25,489 - root - INFO - Created directory: logs

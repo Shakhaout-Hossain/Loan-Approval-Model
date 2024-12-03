@@ -1,0 +1,22 @@
+2024-12-03 18:05:23,867 - __main__ - INFO - Starting ML pipeline...
+2024-12-03 18:05:23,868 - root - INFO - Created directory: artifacts
+2024-12-03 18:05:23,868 - root - INFO - Created directory: artifacts/ingested_data
+2024-12-03 18:05:23,869 - root - INFO - Created directory: artifacts/transformed_data
+2024-12-03 18:05:23,869 - root - INFO - Created directory: artifacts/models
+2024-12-03 18:05:23,870 - root - INFO - Created directory: logs
+2024-12-03 18:05:23,875 - __main__ - INFO - Step 1: Data Ingestion
+2024-12-03 18:05:24,044 - __main__ - INFO - Data ingestion completed. Data saved to artifacts/ingested_data
+2024-12-03 18:05:24,044 - __main__ - INFO - Step 2: Data Transformation
+2024-12-03 18:05:24,187 - __main__ - INFO - Data transformation completed. Data saved to artifacts/transformed_data
+2024-12-03 18:05:24,188 - __main__ - INFO - Step 3: Model Training and Evaluation
+2024-12-03 18:05:24,363 - __main__ - ERROR - Error in ML pipeline: 'NoneType' object has no attribute 'start_run'
+Traceback (most recent call last):
+  File "src/main.py", line 86, in main
+    results = model_trainer.initiate_model_training()
+  File "/Users/flash/Desktop/Loan-Approval-Model/src/model_trainer.py", line 131, in initiate_model_training
+    raise e
+  File "/Users/flash/Desktop/Loan-Approval-Model/src/model_trainer.py", line 120, in initiate_model_training
+    metrics = self.evaluate_model(model, X_train, y_train, X_test, y_test)
+  File "/Users/flash/Desktop/Loan-Approval-Model/src/model_trainer.py", line 75, in evaluate_model
+    self.mlflow_tracker.start_run()
+AttributeError: 'NoneType' object has no attribute 'start_run'

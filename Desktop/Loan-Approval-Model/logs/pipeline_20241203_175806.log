@@ -1,0 +1,11 @@
+2024-12-03 17:58:06,057 - __main__ - INFO - Starting ML pipeline...
+2024-12-03 17:58:06,058 - root - INFO - Created directory: artifacts
+2024-12-03 17:58:06,058 - root - INFO - Created directory: artifacts/ingested_data
+2024-12-03 17:58:06,058 - root - INFO - Created directory: artifacts/transformed_data
+2024-12-03 17:58:06,058 - root - INFO - Created directory: artifacts/models
+2024-12-03 17:58:06,058 - root - INFO - Created directory: logs
+2024-12-03 17:58:06,058 - __main__ - ERROR - Error in ML pipeline: __init__() missing 1 required positional argument: 'mlflow_tracker'
+Traceback (most recent call last):
+  File "src/main.py", line 63, in main
+    model_trainer = ModelTrainer()
+TypeError: __init__() missing 1 required positional argument: 'mlflow_tracker'

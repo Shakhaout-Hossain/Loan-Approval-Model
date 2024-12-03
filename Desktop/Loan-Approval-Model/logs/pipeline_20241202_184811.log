@@ -1,0 +1,152 @@
+2024-12-02 18:48:11,526 - __main__ - INFO - Starting ML pipeline...
+2024-12-02 18:48:11,526 - root - INFO - Created directory: artifacts
+2024-12-02 18:48:11,527 - root - INFO - Created directory: artifacts/ingested_data
+2024-12-02 18:48:11,528 - root - INFO - Created directory: artifacts/transformed_data
+2024-12-02 18:48:11,528 - root - INFO - Created directory: artifacts/models
+2024-12-02 18:48:11,529 - root - INFO - Created directory: logs
+2024-12-02 18:48:12,173 - alembic.runtime.migration - INFO - Context impl SQLiteImpl.
+2024-12-02 18:48:12,173 - alembic.runtime.migration - INFO - Will assume non-transactional DDL.
+2024-12-02 18:48:12,209 - __main__ - INFO - Step 1: Data Ingestion
+2024-12-02 18:48:12,299 - __main__ - INFO - Data ingestion completed. Data saved to artifacts/ingested_data
+2024-12-02 18:48:12,299 - __main__ - INFO - Step 2: Data Transformation
+2024-12-02 18:48:12,384 - __main__ - INFO - Data transformation completed. Data saved to artifacts/transformed_data
+2024-12-02 18:48:12,384 - __main__ - INFO - Step 3: Model Training and Evaluation
+2024-12-02 18:48:15,893 - __main__ - ERROR - Error in ML pipeline: Changing param values is not allowed. Param with key='model_name' was already logged with value='Logistic Regression' for run ID='2364d8e2d8b341f2857e389355279449'. Attempted logging new value 'Decision Tree'.
+
+The cause of this error is typically due to repeated calls
+to an individual run_id event logging.
+
+Incorrect Example:
+---------------------------------------
+with mlflow.start_run():
+    mlflow.log_param("depth", 3)
+    mlflow.log_param("depth", 5)
+---------------------------------------
+
+Which will throw an MlflowException for overwriting a
+logged parameter.
+
+Correct Example:
+---------------------------------------
+with mlflow.start_run():
+    with mlflow.start_run(nested=True):
+        mlflow.log_param("depth", 3)
+    with mlflow.start_run(nested=True):
+        mlflow.log_param("depth", 5)
+---------------------------------------
+
+Which will create a new nested run for each individual
+model and prevent parameter key collisions within the
+tracking store.
+Traceback (most recent call last):
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1900, in _execute_context
+    self.dialect.do_execute(
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/sqlalchemy/engine/default.py", line 736, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.IntegrityError: UNIQUE constraint failed: params.key, params.run_uuid
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/mlflow/store/tracking/sqlalchemy_store.py", line 1099, in log_param
+    session.commit()
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py", line 1451, in commit
+    self._transaction.commit(_to_root=self.future)
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py", line 829, in commit
+    self._prepare_impl()
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py", line 808, in _prepare_impl
+    self.session.flush()
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py", line 3444, in flush
+    self._flush(objects)
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py", line 3584, in _flush
+    transaction.rollback(_capture_exception=True)
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/sqlalchemy/util/langhelpers.py", line 70, in __exit__
+    compat.raise_(
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/sqlalchemy/orm/session.py", line 3544, in _flush
+    flush_context.execute()
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/sqlalchemy/orm/unitofwork.py", line 456, in execute
+    rec.execute(self)
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/sqlalchemy/orm/unitofwork.py", line 630, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/sqlalchemy/orm/persistence.py", line 245, in save_obj
+    _emit_insert_statements(
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/sqlalchemy/orm/persistence.py", line 1097, in _emit_insert_statements
+    c = connection._execute_20(
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1705, in _execute_20
+    return meth(self, args_10style, kwargs_10style, execution_options)
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/sqlalchemy/sql/elements.py", line 334, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1572, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1943, in _execute_context
+    self._handle_dbapi_exception(
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 2124, in _handle_dbapi_exception
+    util.raise_(
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/sqlalchemy/engine/base.py", line 1900, in _execute_context
+    self.dialect.do_execute(
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/sqlalchemy/engine/default.py", line 736, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed: params.key, params.run_uuid
+[SQL: INSERT INTO params ("key", value, run_uuid) VALUES (?, ?, ?)]
+[parameters: ('model_name', 'Decision Tree', '2364d8e2d8b341f2857e389355279449')]
+(Background on this error at: https://sqlalche.me/e/14/gkpj)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/mlflow/tracking/_tracking_service/client.py", line 607, in log_param
+    self.store.log_param(run_id, param)
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/mlflow/store/tracking/sqlalchemy_store.py", line 1110, in log_param
+    raise MlflowException(
+mlflow.exceptions.MlflowException: Changing param values is not allowed. Param with key='model_name' was already logged with value='Logistic Regression' for run ID='2364d8e2d8b341f2857e389355279449'. Attempted logging new value 'Decision Tree'.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "src/main.py", line 86, in main
+    results = model_trainer.initiate_model_training()
+  File "/Users/flash/Desktop/Loan-Approval-Model/src/model_trainer.py", line 131, in initiate_model_training
+    raise e
+  File "/Users/flash/Desktop/Loan-Approval-Model/src/model_trainer.py", line 115, in initiate_model_training
+    self.mlflow_tracker.log_model_metrics(model_name, metrics)
+  File "/Users/flash/Desktop/Loan-Approval-Model/src/mlflow_tracker.py", line 50, in log_model_metrics
+    raise e
+  File "/Users/flash/Desktop/Loan-Approval-Model/src/mlflow_tracker.py", line 45, in log_model_metrics
+    log_param("model_name", model_name)
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/mlflow/tracking/fluent.py", line 698, in log_param
+    return MlflowClient().log_param(run_id, key, value, synchronous=synchronous)
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/mlflow/tracking/client.py", line 1598, in log_param
+    self._tracking_client.log_param(run_id, key, value, synchronous=True)
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/mlflow/tracking/_tracking_service/client.py", line 614, in log_param
+    raise MlflowException(msg, INVALID_PARAMETER_VALUE)
+mlflow.exceptions.MlflowException: Changing param values is not allowed. Param with key='model_name' was already logged with value='Logistic Regression' for run ID='2364d8e2d8b341f2857e389355279449'. Attempted logging new value 'Decision Tree'.
+
+The cause of this error is typically due to repeated calls
+to an individual run_id event logging.
+
+Incorrect Example:
+---------------------------------------
+with mlflow.start_run():
+    mlflow.log_param("depth", 3)
+    mlflow.log_param("depth", 5)
+---------------------------------------
+
+Which will throw an MlflowException for overwriting a
+logged parameter.
+
+Correct Example:
+---------------------------------------
+with mlflow.start_run():
+    with mlflow.start_run(nested=True):
+        mlflow.log_param("depth", 3)
+    with mlflow.start_run(nested=True):
+        mlflow.log_param("depth", 5)
+---------------------------------------
+
+Which will create a new nested run for each individual
+model and prevent parameter key collisions within the
+tracking store.

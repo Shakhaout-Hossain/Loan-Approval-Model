@@ -1,0 +1,32 @@
+2024-12-02 20:06:43,316 - __main__ - INFO - Starting ML pipeline...
+2024-12-02 20:06:43,316 - root - INFO - Created directory: artifacts
+2024-12-02 20:06:43,316 - root - INFO - Created directory: artifacts/ingested_data
+2024-12-02 20:06:43,316 - root - INFO - Created directory: artifacts/transformed_data
+2024-12-02 20:06:43,316 - root - INFO - Created directory: artifacts/models
+2024-12-02 20:06:43,317 - root - INFO - Created directory: logs
+2024-12-02 20:06:43,317 - __main__ - INFO - Step 1: Data Ingestion
+2024-12-02 20:06:43,396 - __main__ - INFO - Data ingestion completed. Data saved to artifacts/ingested_data
+2024-12-02 20:06:43,396 - __main__ - INFO - Step 2: Data Transformation
+2024-12-02 20:06:43,469 - __main__ - INFO - Data transformation completed. Data saved to artifacts/transformed_data
+2024-12-02 20:06:43,470 - __main__ - INFO - Step 3: Model Training and Evaluation
+2024-12-02 20:06:43,579 - __main__ - ERROR - Error in ML pipeline: Could not find experiment with ID 0
+Traceback (most recent call last):
+  File "src/main.py", line 86, in main
+    results = model_trainer.initiate_model_training()
+  File "/Users/flash/Desktop/Loan-Approval-Model/src/model_trainer.py", line 155, in initiate_model_training
+    raise e
+  File "/Users/flash/Desktop/Loan-Approval-Model/src/model_trainer.py", line 120, in initiate_model_training
+    mlflow.start_run()  # Start a single MLFlow run
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/mlflow/tracking/fluent.py", line 418, in start_run
+    active_run_obj = client.create_run(
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/mlflow/tracking/client.py", line 393, in create_run
+    return self._tracking_client.create_run(experiment_id, start_time, tags, run_name)
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/mlflow/tracking/_tracking_service/client.py", line 168, in create_run
+    return self.store.create_run(
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/mlflow/store/tracking/file_store.py", line 638, in create_run
+    experiment = self.get_experiment(experiment_id)
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/mlflow/store/tracking/file_store.py", line 447, in get_experiment
+    experiment = self._get_experiment(experiment_id)
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/mlflow/store/tracking/file_store.py", line 417, in _get_experiment
+    raise MlflowException(
+mlflow.exceptions.MlflowException: Could not find experiment with ID 0

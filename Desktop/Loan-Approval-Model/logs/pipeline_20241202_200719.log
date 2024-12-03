@@ -1,0 +1,91 @@
+2024-12-02 20:07:19,348 - __main__ - INFO - Starting ML pipeline...
+2024-12-02 20:07:19,348 - root - INFO - Created directory: artifacts
+2024-12-02 20:07:19,349 - root - INFO - Created directory: artifacts/ingested_data
+2024-12-02 20:07:19,349 - root - INFO - Created directory: artifacts/transformed_data
+2024-12-02 20:07:19,349 - root - INFO - Created directory: artifacts/models
+2024-12-02 20:07:19,349 - root - INFO - Created directory: logs
+2024-12-02 20:07:19,349 - __main__ - INFO - Step 1: Data Ingestion
+2024-12-02 20:07:19,421 - __main__ - INFO - Data ingestion completed. Data saved to artifacts/ingested_data
+2024-12-02 20:07:19,421 - __main__ - INFO - Step 2: Data Transformation
+2024-12-02 20:07:19,492 - __main__ - INFO - Data transformation completed. Data saved to artifacts/transformed_data
+2024-12-02 20:07:19,492 - __main__ - INFO - Step 3: Model Training and Evaluation
+2024-12-02 20:07:21,984 - __main__ - ERROR - Error in ML pipeline: Changing param values is not allowed. Param with key='model_name' was already logged with value='Logistic Regression' for run ID='af2a0e21b80e4da7ad5b64b97cdc58bd'. Attempted logging new value 'Decision Tree'.
+
+The cause of this error is typically due to repeated calls
+to an individual run_id event logging.
+
+Incorrect Example:
+---------------------------------------
+with mlflow.start_run():
+    mlflow.log_param("depth", 3)
+    mlflow.log_param("depth", 5)
+---------------------------------------
+
+Which will throw an MlflowException for overwriting a
+logged parameter.
+
+Correct Example:
+---------------------------------------
+with mlflow.start_run():
+    with mlflow.start_run(nested=True):
+        mlflow.log_param("depth", 3)
+    with mlflow.start_run(nested=True):
+        mlflow.log_param("depth", 5)
+---------------------------------------
+
+Which will create a new nested run for each individual
+model and prevent parameter key collisions within the
+tracking store.
+Traceback (most recent call last):
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/mlflow/tracking/_tracking_service/client.py", line 607, in log_param
+    self.store.log_param(run_id, param)
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/mlflow/store/tracking/file_store.py", line 999, in log_param
+    self._log_run_param(run_info, param)
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/mlflow/store/tracking/file_store.py", line 1005, in _log_run_param
+    self._validate_new_param_value(
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/mlflow/store/tracking/file_store.py", line 1025, in _validate_new_param_value
+    raise MlflowException(
+mlflow.exceptions.MlflowException: Changing param values is not allowed. Param with key='model_name' was already logged with value='Logistic Regression' for run ID='af2a0e21b80e4da7ad5b64b97cdc58bd'. Attempted logging new value 'Decision Tree'.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "src/main.py", line 86, in main
+    results = model_trainer.initiate_model_training()
+  File "/Users/flash/Desktop/Loan-Approval-Model/src/model_trainer.py", line 155, in initiate_model_training
+    raise e
+  File "/Users/flash/Desktop/Loan-Approval-Model/src/model_trainer.py", line 139, in initiate_model_training
+    mlflow.log_param("model_name", model_name)
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/mlflow/tracking/fluent.py", line 698, in log_param
+    return MlflowClient().log_param(run_id, key, value, synchronous=synchronous)
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/mlflow/tracking/client.py", line 1598, in log_param
+    self._tracking_client.log_param(run_id, key, value, synchronous=True)
+  File "/Users/flash/Desktop/Loan-Approval-Model/.venv/lib/python3.8/site-packages/mlflow/tracking/_tracking_service/client.py", line 614, in log_param
+    raise MlflowException(msg, INVALID_PARAMETER_VALUE)
+mlflow.exceptions.MlflowException: Changing param values is not allowed. Param with key='model_name' was already logged with value='Logistic Regression' for run ID='af2a0e21b80e4da7ad5b64b97cdc58bd'. Attempted logging new value 'Decision Tree'.
+
+The cause of this error is typically due to repeated calls
+to an individual run_id event logging.
+
+Incorrect Example:
+---------------------------------------
+with mlflow.start_run():
+    mlflow.log_param("depth", 3)
+    mlflow.log_param("depth", 5)
+---------------------------------------
+
+Which will throw an MlflowException for overwriting a
+logged parameter.
+
+Correct Example:
+---------------------------------------
+with mlflow.start_run():
+    with mlflow.start_run(nested=True):
+        mlflow.log_param("depth", 3)
+    with mlflow.start_run(nested=True):
+        mlflow.log_param("depth", 5)
+---------------------------------------
+
+Which will create a new nested run for each individual
+model and prevent parameter key collisions within the
+tracking store.
