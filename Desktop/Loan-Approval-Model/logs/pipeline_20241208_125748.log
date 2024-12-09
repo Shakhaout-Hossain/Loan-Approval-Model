@@ -1,0 +1,24 @@
+2024-12-08 12:57:48,010 - __main__ - INFO - Starting ML pipeline...
+2024-12-08 12:57:48,010 - root - INFO - Created directory: artifacts
+2024-12-08 12:57:48,010 - root - INFO - Created directory: artifacts/ingested_data
+2024-12-08 12:57:48,010 - root - INFO - Created directory: artifacts/transformed_data
+2024-12-08 12:57:48,010 - root - INFO - Created directory: artifacts/models
+2024-12-08 12:57:48,011 - root - INFO - Created directory: logs
+2024-12-08 12:57:48,787 - alembic.runtime.migration - INFO - Context impl SQLiteImpl.
+2024-12-08 12:57:48,788 - alembic.runtime.migration - INFO - Will assume non-transactional DDL.
+2024-12-08 12:57:48,833 - __main__ - INFO - Step 1: Data Ingestion
+2024-12-08 12:57:48,967 - __main__ - INFO - Data ingestion completed. Data saved to artifacts/ingested_data
+2024-12-08 12:57:48,967 - __main__ - INFO - Step 2: Data Transformation
+2024-12-08 12:57:49,071 - __main__ - INFO - Data transformation completed. Data saved to artifacts/transformed_data
+2024-12-08 12:57:49,072 - __main__ - INFO - Step 3: Model Training and Evaluation
+2024-12-08 12:57:52,983 - __main__ - ERROR - Error in ML pipeline: register_model() missing 1 required positional argument: 'model_name'
+Traceback (most recent call last):
+  File "src/main.py", line 95, in main
+    results = model_trainer.initiate_model_training()
+  File "/Users/flash/Desktop/Loan-Approval-Model/src/model_trainer.py", line 138, in initiate_model_training
+    raise e
+  File "/Users/flash/Desktop/Loan-Approval-Model/src/model_trainer.py", line 127, in initiate_model_training
+    metrics = self.evaluate_model(model, X_train, y_train, X_test, y_test)
+  File "/Users/flash/Desktop/Loan-Approval-Model/src/model_trainer.py", line 80, in evaluate_model
+    self.mlflow_tracker.register_model(model.__class__.__name__)
+TypeError: register_model() missing 1 required positional argument: 'model_name'

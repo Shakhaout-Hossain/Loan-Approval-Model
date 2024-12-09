@@ -75,6 +75,13 @@ class ModelTrainer:
         self.mlflow_tracker.start_run()
         self.mlflow_tracker.log_metrics(model.__class__.__name__, y_test, y_pred)
         self.mlflow_tracker.log_model(model, model.__class__.__name__)
+        
+        # Register the model to the MLflow Model Registry
+        self.mlflow_tracker.register_model(model, model.__class__.__name__)
+
+        # Transition the model to 'Production' stage
+        self.mlflow_tracker.transition_to_production(model.__class__.__name__)
+        
         self.mlflow_tracker.end_run()
 
         return {
